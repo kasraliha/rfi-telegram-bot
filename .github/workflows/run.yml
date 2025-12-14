@@ -2,7 +2,7 @@ name: RFI to Telegram
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"  # هر 30 دقیقه
   workflow_dispatch:
 
 jobs:
@@ -16,6 +16,13 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Restore state cache
+        uses: actions/cache@v4
+        with:
+          path: state.json
+          key: rfi-telegram-state
+          restore-keys: rfi-telegram-state
+
       - name: Install dependencies
         run: pip install requests feedparser
 
@@ -24,4 +31,14 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           FEED_URL: ${{ secrets.FEED_URL }}
+          MAX_POSTS_PER_RUN: "5"
+          SEEN_LIMIT: "400"
+          REQUEST_TIMEOUT: "20"
+          USER_AGENT: "RegardiRSSBot/1.0 (+contact@regardi.fr)"
         run: python bot.py
+
+      - name: Save state cache
+        uses: actions/cache@v4
+        with:
+          path: state.json
+          key: rfi-telegram-state
