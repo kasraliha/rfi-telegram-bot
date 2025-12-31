@@ -9,7 +9,14 @@ from typing import Dict, Any, List
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]          # e.g. -1001234567890
-FEED_URL = os.environ["FEED_URL"]        # RFI RSS (culture/arts)
+FEED_URLS = [
+    "https://www.rfi.fr/fr/culture/rss",
+    "https://www.franceculture.fr/rss/culture.xml",
+    "https://www.lemonde.fr/culture/rss_full.xml",
+    "https://www.telerama.fr/rss",
+    "https://www.arte.tv/rss/fr/culture/",
+]
+        # RFI RSS (culture/arts)
 STATE_FILE = os.environ.get("STATE_FILE", "state.json")
 
 MAX_POSTS_PER_RUN = int(os.environ.get("MAX_POSTS_PER_RUN", "5"))
